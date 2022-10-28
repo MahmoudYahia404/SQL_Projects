@@ -21,10 +21,11 @@ WHERE a.PropertyAddress = "" AND b.PropertyAddress != "";
 
 -- Breaking out Address into Individual Columns (Address, City, State)
 SELECT 
-	PropertyAddress, 
-        SUBSTRING_INDEX(PropertyAddress, ', ', 1) , 
-        SUBSTRING_INDEX(PropertyAddress, ', ', -1) 
-FROM nashville_housing;
+PropertyAddress, 
+SUBSTRING_INDEX(PropertyAddress, ', ', 1) , 
+SUBSTRING_INDEX(PropertyAddress, ', ', -1) 
+FROM 
+nashville_housing;
 
 ALTER TABLE nashville_housing
 ADD Property_Address VARCHAR(50) AFTER PropertyAddress,
@@ -32,18 +33,18 @@ ADD Property_City VARCHAR(50) AFTER Property_Address;
 
 UPDATE nashville_housing
 SET 
-	Property_Address = SUBSTRING_INDEX(PropertyAddress, ', ', 1) , 
-	Property_City = SUBSTRING_INDEX(PropertyAddress, ', ', -1);
+Property_Address = SUBSTRING_INDEX(PropertyAddress, ', ', 1) , 
+Property_City = SUBSTRING_INDEX(PropertyAddress, ', ', -1);
     
 ALTER TABLE nashville_housing
 DROP COLUMN PropertyAddress;
 
 
 SELECT 
-	OwnerAddress,
-        SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ',', 1), ',', -1) AS Owner_Address,
-	SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ',', 2), ',', -1) AS Owner_Sity,
-	SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ',', 3), ',', -1) AS Owner_State
+OwnerAddress,
+SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ',', 1), ',', -1) AS Owner_Address,
+SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ',', 2), ',', -1) AS Owner_Sity,
+SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ',', 3), ',', -1) AS Owner_State
 FROM nashville_housing;
 
 ALTER TABLE nashville_housing
@@ -53,9 +54,9 @@ ADD Owner_State VARCHAR(2) AFTER Owner_Sity;
 
 UPDATE nashville_housing
 SET
-	Owner_Address = SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ', ', 1), ', ', -1),
-	Owner_Sity = SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ', ', 2), ', ', -1),
-	Owner_State = SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ', ', 3), ', ', -1);
+Owner_Address = SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ', ', 1), ', ', -1),
+Owner_Sity = SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ', ', 2), ', ', -1),
+Owner_State = SUBSTRING_INDEX(SUBSTRING_INDEX(OwnerAddress, ', ', 3), ', ', -1);
     
 ALTER TABLE nashville_housing
 DROP COLUMN OwnerAddress;
@@ -69,9 +70,9 @@ GROUP BY SoldAsVacant;
 UPDATE nashville_housing
 SET SoldAsVacant = 
 CASE
-	WHEN SoldAsVacant = "Y" Then "Yes"
-	WHEN SoldAsVacant = "N" Then "NO"
-	ELSE SoldAsVacant 
+   WHEN SoldAsVacant = "Y" Then "Yes"
+   WHEN SoldAsVacant = "N" Then "NO"
+   ELSE SoldAsVacant 
 END;
 
 
